@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='unScorer',
-      version="0.1",
+      version="1.0",
       packages = ['unScorer'],
       include_package_data=True,
       author = "Brian Friederich",
