@@ -27,7 +27,6 @@ class Tokenize(object):
         self.arr = None
 
     def __run__(self):
-        self.string = self.string.replace("-", " - ")
         self.arr = word_tokenize(self.string)
         return self.arr
 
@@ -45,11 +44,11 @@ class Calculate_Score(object):
         self.token = object
 
     def __run__(self):
-    split_token = re.split(r"score", self.token)[0]
-    split_token = split_token.replace("-","")
-    if split_token.lower() in numwords:
-        self.token = units[split_token.lower()] * 20
-    return self.token
+        split_token = re.split(r"score", self.token)[0]
+        split_token = split_token.replace("-","")
+        if split_token.lower() in numwords:
+            self.token = units[split_token.lower()] * 20
+        return str(self.token)
 
 class Has_Score(object):
     """Class finding tokens to apply unScore method to.
@@ -58,7 +57,8 @@ class Has_Score(object):
         self.arr = object
 
     def __run__(self):
-        self.arr = [Calculate_Score(i) if str(i).endswith("score") else i for i in self.arr]
+        self.arr = [Calculate_Score(i).__run__() if str(i).endswith("score") else i for i in self.arr]
+        return self.arr
 
 class Join_Elements(object):
 
@@ -83,5 +83,5 @@ class Join_Elements(object):
             converted into modern measurements.
         """
         for unit in self.arr:
-            self.output = "".join([" "+i if not i.startswith("'", "-") else i for i in self.arr]).strip()
+            self.output = "".join([" "+i if not i == "-" else i for i in self.arr]).strip()
         return self.output
